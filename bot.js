@@ -252,6 +252,10 @@ Bot.prototype.onMessage = function (msg) {
       case 'snagged':
          self.emit('snagged', json);
          break;
+      case 'search_complete':
+      case 'search_failed':
+         self.emit('search_complete', json);
+         break;
       default:
          if (json['command']) {
             //console.log('Command: ', json);
@@ -602,6 +606,11 @@ Bot.prototype.becomeFan = function (userId, callback) {
 
 Bot.prototype.removeFan = function (userId, callback) {
    var rq = { api: 'user.remove_fan', djid: userId };
+   this._send(rq, callback);
+};
+
+Bot.prototype.findSong = function (q, callback) {
+   var rq = { api: 'file.search', query: q };
    this._send(rq, callback);
 };
 
